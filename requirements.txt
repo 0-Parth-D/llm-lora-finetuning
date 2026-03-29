@@ -1,0 +1,11 @@
+transformers
+accelerate
+peft
+trl
+bitsandbytes
+datasets
+evaluate
+bert-score
+gradio
+mlflow
+wandb
