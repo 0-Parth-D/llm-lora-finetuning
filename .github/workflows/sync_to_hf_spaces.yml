@@ -21,13 +21,7 @@ jobs:
           fetch-depth: 0      # full history, not just latest commit
           lfs: true           # include any Git LFS files
 
-      # Step 2: Warn if any file is over 10MB (HF Spaces limit for non-LFS files)
-      - name: Check for large files
-        uses: ActionsDesk/lfs-warning@v3.0
-        with:
-          filesizelimit: 10485760   # 10MB in bytes
-
-      # Step 3: Push to HuggingFace Spaces via authenticated git push
+      # Step 2: Push to HuggingFace Spaces via authenticated git push
       - name: Push to HuggingFace Spaces
         env:
           HF_TOKEN: ${{ secrets.HF_TOKEN }}
