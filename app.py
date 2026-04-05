@@ -2,6 +2,15 @@ from transformers import AutoTokenizer, AutoModelForCausalLM, BitsAndBytesConfig
 import gradio as gr
 from peft import PeftModel
 import torch
+import os
+from huggingface_hub import login
+
+# ─────────────────────────────────────────────
+# LOGIN TO HUGGINGFACE
+# ─────────────────────────────────────────────
+hf_token = os.environ.get("HF_TOKEN")
+if hf_token:
+    login(token=hf_token)
 
 # ─────────────────────────────────────────────
 # CONFIG
