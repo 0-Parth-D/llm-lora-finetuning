@@ -1,0 +1,35 @@
+# .github/workflows/sync_to_hf_spaces.yml
+# Automatically syncs your GitHub repo to HuggingFace Spaces on every push to main.
+
+name: Sync to Hugging Face Spaces
+
+on:
+  push:
+    branches:
+      - main                  # triggers on every push to main
+  workflow_dispatch:          # also allows manual trigger from GitHub Actions tab
+
+jobs:
+  sync-to-hub:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Step 1: Check out the full git history (needed for proper push)
+      - name: Checkout repo
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0      # full history, not just latest commit
+          lfs: true           # include any Git LFS files
+
+      # Step 2: Warn if any file is over 10MB (HF Spaces limit for non-LFS files)
+      - name: Check for large files
+        uses: ActionsDesk/lfs-warning@v3.0
+        with:
+          filesizelimit: 10485760   # 10MB in bytes
+
+      # Step 3: Push to HuggingFace Spaces via authenticated git push
+      - name: Push to HuggingFace Spaces
+        env:
+          HF_TOKEN: ${{ secrets.HF_TOKEN }}
+        run: |
+          git push https://parthtamu:$HF_TOKEN@huggingface.co/spaces/parthtamu/QLoRA-Finetuning main
